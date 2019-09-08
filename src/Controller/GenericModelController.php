@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Title           : SlimBase
+ * Title           : CarService
  * Filename        : GenericModelController.php
  * Description     :
  * Date            : 08/09/19 10:00
@@ -9,7 +9,7 @@
  * Copyright       : 2019 All rights reserved
  */
 
-namespace DavegTheMighty\SlimBase\Controller;
+namespace DavegTheMighty\CarService\Controller;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -20,7 +20,7 @@ use Psr\Http\Message\ResponseInterface;
 
 //Traits
 //phpcs:ignore PSR2.Namespaces.UseDeclaration.MultipleDeclarations
-use DavegTheMighty\SlimBase\Controller\Traits {
+use DavegTheMighty\CarService\Controller\Traits {
     FillModelTrait,
     GetModelTrait,
     NewModelTrait,

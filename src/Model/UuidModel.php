@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Title           : SlimBase
+ * Title           : CarService
  * Filename        : UuidModel.php
  * Description     :
  * Date            : 08/09/19 10:00
@@ -9,7 +9,7 @@
  * Copyright       : 2019 All rights reserved
  */
 
-namespace DavegTheMighty\SlimBase\Model;
+namespace DavegTheMighty\CarService\Model;
 
 use Ramsey\Uuid\Uuid;
 

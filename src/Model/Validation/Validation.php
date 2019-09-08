@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Title           : SlimBase
+ * Title           : CarService
  * Filename        : Validation.php
  * Description     :
  * Date            : 08/09/19 10:00
@@ -20,7 +20,7 @@
  * The errors array will be empty if there are no validation Errors
  *
  */
-namespace DavegTheMighty\SlimBase\Model\Validation;
+namespace DavegTheMighty\CarService\Model\Validation;
 
 use Valitron\Validator;
 

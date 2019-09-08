@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Title           : SlimBase
+ * Title           : CarService
  * Filename        : NewModelTrait.php
  * Description     :
  * Date            : 08/09/19 10:00
@@ -9,7 +9,7 @@
  * Copyright       : 2019 All rights reserved
  */
 
-namespace DavegTheMighty\SlimBase\Controller\Traits;
+namespace DavegTheMighty\CarService\Controller\Traits;
 
 use Psr\Http\Message\ServerRequestInterface;
 

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Title           : SlimBase
+ * Title           : CarService
  * Filename        : Loader.php
  * Description     :
  * Date            : 08/09/19 10:00
@@ -11,6 +11,6 @@
 
 
 //phpcs:ignore PSR2.Namespaces.UseDeclaration.MultipleDeclarations
-// use DavegTheMighty\SlimBase\Controller\{
+// use DavegTheMighty\CarService\Controller\{
 // };
 use Interop\Container\ContainerInterface;

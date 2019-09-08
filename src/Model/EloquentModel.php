@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Title           : SlimBase
+ * Title           : CarService
  * Filename        : EloquentModel.php
  * Description     :
  * Date            : 08/09/19 10:00
@@ -9,12 +9,12 @@
  * Copyright       : 2019 All rights reserved
  */
 
-namespace DavegTheMighty\SlimBase\Model;
+namespace DavegTheMighty\CarService\Model;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-use DavegTheMighty\SlimBase\Model\Validation\IValidation;
-use DavegTheMighty\SlimBase\Model\Validation\ModelValidation;
+use DavegTheMighty\CarService\Model\Validation\IValidation;
+use DavegTheMighty\CarService\Model\Validation\ModelValidation;
 
 use Psr\Http\Message\ServerRequestInterface;
 
