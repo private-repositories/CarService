@@ -45,6 +45,18 @@ $container['errorHandler'] = function (ContainerInterface $container) {
     return $errorHandler;
 };
 
+$dbsettings = $container->get('settings')['database'];
+
+$capsule = new Manager;
+$capsule->addConnection($dbsettings);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
+// Database ORM
+$container['db'] = function (ContainerInterface $container) use ($capsule) {
+    return $capsule;
+};
+
 $container["logger"] = function (ContainerInterface $container) {
 
     $logsettings = $container->get('settings')['logger'];
