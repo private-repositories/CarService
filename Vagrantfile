@@ -172,6 +172,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", name: "configure service", privileged: false, inline: <<-'SHELL'
     cd /vagrant && cp .env-development .env
     cd /vagrant && composer install
+    psql -c "CREATE USER carservicedbuser WITH ENCRYPTED PASSWORD 'thisisnotasecurepassword'"
+    psql -c "CREATE SCHEMA carservice AUTHORIZATION carservicedbuser"
+    psql -c "GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA carservice TO carservicedbuser"
+    psql -c "GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA carservice TO carservicedbuser"
+    cd /vagrant && vendor/bin/phinx migrate
   SHELL
 
   config.vm.post_up_message = <<MESSAGE
