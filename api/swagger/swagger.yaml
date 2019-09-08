@@ -1,0 +1,177 @@
+openapi: 3.0.2
+info:
+  version: 0.0.1
+  title: Car Service
+  description: The restful API documentation for the Car Service.
+  contact:
+    email: davegthemighty@hotmal.com
+tags:
+- name: "Import"
+  description: "Information for the import routes"
+- name: "Vehicles"
+  description: "Information for the vehicles"
+paths:
+  /import:
+    post:
+      summary: Import data from uploaded CSV file
+      operationId: createHub
+      tags:
+        - Import
+      responses:
+        '201':
+          description: Create Resource response
+        '500':
+          $ref: '#/components/responses/ImportError'
+  /vehicles:
+    get:
+      summary: List all Vehicles
+      operationId: getVehicles
+      tags:
+        - Vehicles
+      parameters:
+        #Filter Params
+        - name: sort
+          in: query
+          description: Sort exact match parameter for field name (Ascending)
+          required: false
+          schema:
+            type: string
+        - name: field_value
+          in: query
+          description: Filter Query exact match parameter for vehicle field
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Get Resources response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicles"
+        '500':
+          description: Request Internal Server Error response
+  /owners/{owner_id}/vehicles:
+    get:
+      summary: List all Vehicles By Owner Id
+      operationId: getVehiclesByOwnerId
+      tags:
+        - Vehicles
+      parameters:
+        - name: owner_id
+          in: path
+          description: Exact match parameter for owner id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Get Resources response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicles"
+        '500':
+          description: Request Internal Server Error response
+  /owners/{owner_name}/vehicles:
+    get:
+      summary: List all Vehicles By Owner Name
+      operationId: getVehiclesByOwnerName
+      tags:
+        - Vehicles
+      parameters:
+        - name: owner_name
+          in: path
+          description: Exact match parameter for owner name
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Get Resources response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicles"
+        '500':
+          description: Request Internal Server Error response
+components:
+  schemas:
+    Owner:
+      type: object
+      required:
+        - id
+        - owner_name
+      properties:
+        id:
+          type: string
+          format: uuid
+        owner_name:
+          type: string
+          maxLength: 255
+        owner_profession:
+          type: string
+          maxLength: 255
+        owner_company:
+          type: string
+          maxLength: 255
+    Owners:
+      type: array
+      items:
+        $ref: "#/components/schemas/Owners"
+    Vehicle:
+      type: object
+      required:
+        - id
+        - license_plate
+        - manufacturer
+        - model
+        - owner_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        owner_id:
+          type: string
+          format: uuid
+        license_plate:
+          type: string
+          maxLength: 10
+        year_of_purchase:
+          type: integer
+        colour:
+          type: string
+          maxLength: 255
+        fuel_type:
+          type: string
+          maxLength: 255
+        transmission:
+          type: string
+          maxLength: 255
+        manufacturer:
+          type: string
+          maxLength: 255
+        model:
+          type: string
+          maxLength: 255
+        num_seats:
+          type: integer
+          minimum: 1
+        num_doors:
+          type: integer
+          minimum: 1
+        owner:
+          $ref: '#/components/schemas/Owner'
+    Vehicles:
+      type: array
+      items:
+        $ref: "#/components/schemas/Vehicle"
+  responses:
+    ImportError:
+      description: One or more errors importing CSV data from the file
+externalDocs:
+  description: "Car Service Documentation"
+  url: "https://github.com/private_repositories/CarService#readme"

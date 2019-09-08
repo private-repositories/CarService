@@ -57,6 +57,11 @@ class ImportController
     ): ResponseInterface {
 
         $uploadedFiles = $this->uploadFiles($request);
+
+        if (empty($uploadedFiles)) {
+            return $response->withStatus(400);
+        }
+
         foreach ($uploadedFiles as $file_name => $uploadedFile) {
             if ($uploadedFile === null) {
                 $this->logger->error(
@@ -157,7 +162,7 @@ class ImportController
         //If validation not empty
         if (!empty($errors)) {
             $this->logger->info(
-                "Validation errors raised for vehicle import row '{$row}' request, not saving.",
+                "Validation errors raised for vehicle import row '{$this->row}' request, not saving.",
                 [$errors]
             );
             $this->file_errors = true;
@@ -171,13 +176,13 @@ class ImportController
             }, 3);
         } catch (QE $queryException) {
             $this->logger->error(
-                "Database operation on Vehicles import for row {$row} failed with db query errors.",
+                "Database operation on Vehicles import for row {$this->row} failed with db query errors.",
                 [$queryException]
             );
             $this->file_errors = true;
         } catch (\PDOException $pdoException) {
             $this->logger->error(
-                "Unable to complete database operation on Vehicles import for row {$row}",
+                "Unable to complete database operation on Vehicles import for row {$this->row}",
                 [$pdoException]
             );
             $this->file_errors = true;

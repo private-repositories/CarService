@@ -73,6 +73,8 @@ Some incomplete areas or future work are:
  - Regex validation for registration
  - Split owner's company into a separate table
  - Assume owner name is unique index
+ - Unit tests are not exhaustive
+ - Validation for transmission and fuel types being in list
 
 ## Server Running Instructions
 
@@ -93,3 +95,59 @@ The postgres database details are:
 (Internal to vagrant server)
 
 ## API Running Instructions
+
+The basic routes are:
+  - vehicles
+  - import
+
+See below for specific details
+
+Each will ultimately follow the same pattern.
+
+**Import**
+
+_POST File_
+
+Can be run from project data/ folder
+
+```
+curl -vF 'file=@"vehicles.csv";filename="vehicles.csv"' http://192.168.50.52/import
+```
+
+**Vehicles**
+
+_GET All_
+
+```
+curl "http://192.168.50.52/vehicles/" --request GET
+```
+
+Sorted:
+
+Any exact match on field name in vehicles table
+
+```
+curl "http://192.168.50.52/vehicles/?sort=year_of_purchase" --request GET
+```
+
+Filtered:
+
+Any exact match on field value in vehicles table
+
+```
+curl "http://192.168.50.52/vehicles?license_plate=XX391ST" --request GET
+```
+
+Note: Filter and sort can be combined
+
+_GET by Owner ID_
+
+```
+curl "http://192.168.50.52/owners/1a312a4f-14f9-4266-9be5-0a1f35f91861/vehicles" --request GET
+```
+
+_GET by Owner Name_
+
+```
+curl "http://192.168.50.52/owners/Jo%20Bloggs/vehicles" --request GET
+```
