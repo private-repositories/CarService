@@ -12,7 +12,6 @@
 //phpcs:ignore PSR2.Namespaces.UseDeclaration.MultipleDeclarations
 use DavegTheMighty\CarService\Controller\{
   ImportController,
-  OwnerController,
   VehicleController
 };
 use Interop\Container\ContainerInterface;
@@ -21,10 +20,6 @@ $container = $app->getContainer();
 
 $container['ImportController'] = function (ContainerInterface $c) {
     return new ImportController($c);
-};
-
-$container['OwnerController'] = function (ContainerInterface $c) {
-    return new OwnerController($c);
 };
 
 $container['VehicleController'] = function (ContainerInterface $c) {

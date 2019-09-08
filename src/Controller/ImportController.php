@@ -21,12 +21,14 @@ use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException as QE;
 
+use Interop\Container\ContainerInterface;
+
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Slim\Http\UploadedFile;
 
-class ImportController extends GenericModelController
+class ImportController
 {
     /**
      * @param Request $request
@@ -37,6 +39,16 @@ class ImportController extends GenericModelController
 
     protected $file_errors = false;
     protected $row = 0;
+
+    /**
+     * GenericModelController constructor.
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+        $this->logger = $container->logger;
+        $this->validator = $container->validator;
+    }
 
     public function importData(
         ServerRequestInterface $request,

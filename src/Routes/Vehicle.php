@@ -11,21 +11,17 @@
 
 use DavegTheMighty\CarService\Controller\VehicleController;
 
+//- The ability to filter all available vehicles by owner
 $app->get(
-    '/vehicles',
-    \VehicleController::class . ':getAll'
+    '/owners/{owner_id:[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}}/vehicles',
+    \VehicleController::class . ':getByOwnerId'
 )
-->setName('getVehicles');
+->setName('getByOwnerId');
 
-$app->get('/vehicles/{vehicle_id}', \VehicleController::class . ':get')
+$app->get('/owners/{owner_name}/vehicles', \VehicleController::class . ':getByOwnerName')
+->setName('getByOwnerName');
 
-->setName('getVehicle');
-
-$app->post('/vehicles', \VehicleController::class . ':post')
-->setName('createVehicle');
-
-$app->patch('/vehicles/{vehicle_id}', \VehicleController::class . ':patch')
-->setName('updateVehicle');
-
-$app->delete('/vehicles/{vehicle_id}', \VehicleController::class . ':delete')
-->setName('deleteVehicle');
+//    - The ability to filter sort available vehicles by year of purchase
+//    - The ability to filter search available vehicles by registration plate
+$app->get('/vehicles', \VehicleController::class . ':getAll')
+->setName('getAll');
