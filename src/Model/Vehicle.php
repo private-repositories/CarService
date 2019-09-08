@@ -19,6 +19,7 @@ class Vehicle extends UuidModel
     protected $fillable = [
       'id',
       'license_plate',
+      'year_of_purchase',
       'colour',
       'fuel_type',
       'transmission',
