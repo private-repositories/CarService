@@ -33,6 +33,8 @@ require __DIR__ . "/src/Config/Dependencies.php";
 require __DIR__ . "/src/Config/Middleware.php";
 require __DIR__ . "/src/Config/Loader.php";
 
-//TODO: Define Routes
+require __DIR__ . "/src/Routes/Import.php";
+require __DIR__ . "/src/Routes/Vehicle.php";
+require __DIR__ . "/src/Routes/Owner.php";
 
 $app->run();

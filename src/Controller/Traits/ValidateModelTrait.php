@@ -23,8 +23,7 @@ trait ValidateModelTrait
                 "Validation errors raised for {$this->model::getClassName()} request.",
                 [$this->model->id, $errors]
             );
-          //Validation Errors Response - Trait
-          //return $this->container->responseFactory::validationErrorsResponse()->setData($errors)->build($response);
         }
+        return $errors;
     }
 }

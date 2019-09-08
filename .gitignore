@@ -2,6 +2,7 @@
 .env
 .vagrant/
 certs
+var/uploads/*.csv*
 composer.phar
 TODO
 node_modules

@@ -34,11 +34,13 @@ class OwnerMigration extends AbstractMigration
         $table = $this->table("{$schema}.owners", ['id' => false, 'primary_key' => ['id']]);
         $table
             ->addColumn("id", "uuid", ["null" => false])
-            ->addColumn("name", "string", ["limit" => 255, "null" => false])
-            ->addColumn("profession", "string", ["limit" => 255, "null" => true])
-            ->addColumn("company", "string", ["limit" => 255, "null" => true])
+            //FIXME: The owner_ is redundant, but we are using for expedience
+            ->addColumn("owner_name", "string", ["limit" => 255, "null" => false])
+            ->addColumn("owner_profession", "string", ["limit" => 255, "null" => true])
+            ->addColumn("owner_company", "string", ["limit" => 255, "null" => true])
             ->addTimestamps()
-            ->addIndex(["id"], ["unique" => true, "name" => "owners_id_idx"]);
+            ->addIndex(["id"], ["unique" => true, "name" => "owners_id_idx"])
+            ->addIndex(["owner_name"], ["unique" => true, "name" => "owners_name_idx"]);
         $table->create();
     }
 }
