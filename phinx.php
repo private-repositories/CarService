@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Title           : SlimBase
+ * Title           : CarService
  * Filename        : FIllModelTrait.php
  * Description     :
  * Date            : 08/09/19 10:00
@@ -12,7 +12,7 @@
 // load our environment files - used to store credentials & configuration
 Dotenv\Dotenv::create(__DIR__)->overload();
 
-$_ENV['DB_SCHEMA'] = $_ENV['DB_SCHEMA'] ?? 'slimbase';
+$_ENV['DB_SCHEMA'] = $_ENV['DB_SCHEMA'] ?? 'carservice';
 $_ENV['DB_PORT'] = $_ENV['DB_PORT'] ?? '5432';
 
 $settings =
