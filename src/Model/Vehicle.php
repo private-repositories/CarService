@@ -12,7 +12,7 @@ namespace DavegTheMighty\CarService\Model;
 
 use Valitron\Validator;
 
-class Owner extends UuidModel
+class Vehicle extends UuidModel
 {
     use Validation\VehicleValidationRules;
 

@@ -18,9 +18,9 @@ class Owner extends UuidModel
 
     protected $fillable = [
       'id',
-      'name',
-      'profession',
-      'company',
+      'owner_name',
+      'owner_profession',
+      'owner_company',
     ];
     protected $hidden = ['created_at','updated_at'];
 

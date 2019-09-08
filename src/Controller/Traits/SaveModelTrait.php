@@ -11,6 +11,8 @@
 
 namespace DavegTheMighty\CarService\Controller\Traits;
 
+use DavegTheMighty\CarService\Exceptions\ControllerException;
+
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\QueryException as QE;
 
@@ -28,6 +30,7 @@ trait SaveModelTrait
                 "Database operation on ".$object::getClassName()." failed with db query errors.",
                 [$object->id, $queryException]
             );
+            throw new ControllerException($queryException);
             //Query Exception Response - Trait
             //return $this->container->responseFactory::queryExceptionResponse()->build($response);
         } catch (\PDOException $pdoException) {
@@ -35,8 +38,7 @@ trait SaveModelTrait
                 "Unable to complete database operation on ".$object::getClassName().".",
                 [$object->id, $pdoException]
             );
-            //Database Exception Error - Trait
-            //return $this->container->responseFactory::databaseExceptionResponse()->build($response);
+            throw new ControllerException($pdoException);
         }
     }
 }

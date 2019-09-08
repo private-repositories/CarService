@@ -20,12 +20,12 @@ trait OwnerValidationRules
     protected $rules = [
         'required' => [
             'id',
-            'name',
+            'owner_name',
         ],
         'lengthMax' => [
-                ['name', 255],
-                ['profession', 255],
-                ['company', 255],
+                ['owner_name', 255],
+                ['owner_profession', 255],
+                ['owner_company', 255],
             ],
     ];
 }

@@ -11,36 +11,37 @@
 
 namespace DavegTheMighty\CarService\Controller\Traits;
 
+use DavegTheMighty\CarService\Exceptions\ControllerException;
+
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use Psr\Http\Message\ServerRequestInterface;
 
 trait QueryModelTrait
 {
-    protected function queryModel(ServerRequestInterface $request): void
+    protected function queryModel(ServerRequestInterface $request): Collection
     {
         try {
-            $resource = $this->getSetModel();
-            $this->class_name = $resource->getClassName(false);
-
+            $this->getModel($request);
+            $this->class_name = $this->model->getClassName(false);
             //Find Object Trait
             $params = $request->getQueryParams();
-            $objects = $resource::where($params)->get();
 
-            if (!$objects) {
+            $collection = $this->model::where($params)->get();
+
+            if (!$collection) {
                 $this->logger->notice(
                     "Get All {$class_name} returned no objects for supplied params ".print_r($params, true)
                 );
-              //Not found Response - Trait
-              //return $this->container->responseFactory::notFoundResponse()->build($response);
             }
-            return $objects;
+            return $collection;
         } catch (\RuntimeException $runtimeException) {
             $this->logger->error(
                 "Request failed due to Runtime exception.",
                 [$runtimeException]
             );
-            //Runtime Exception Response - Trait
-            //return $this->container->responseFactory::runtimeExceptionResponse()->build($response);
+            throw new ControllerException($runtimeException);
         }
     }
 }

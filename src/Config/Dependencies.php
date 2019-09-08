@@ -9,8 +9,6 @@
  * Copyright       : 2019 All rights reserved
  */
 
-use Auth0\SDK\Auth0;
-
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -22,15 +20,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Formatter\LineFormatter;
 
-use OAuth2\Request;
-use OAuth2\Response;
-use OAuth2\Server;
-use OAuth2\Storage\Memory;
-use OAuth2\TokenType\Bearer;
-
 use Psr\Http\Message\ServerRequestInterface;
-
-use Slim\Views\PhpRenderer;
 
 use Valitron\Validator;
 

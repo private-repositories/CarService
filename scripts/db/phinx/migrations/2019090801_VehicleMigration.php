@@ -34,7 +34,9 @@ class VehicleMigration extends AbstractMigration
         $table = $this->table("{$schema}.vehicles", ['id' => false, 'primary_key' => ['id']]);
         $table
             ->addColumn("id", "uuid", ["null" => false])
+            ->addColumn("owner_id", "uuid", ["null" => false])
             ->addColumn("license_plate", "string", ["limit" => 10, "null" => false])
+            ->addColumn("year_of_purchase", "smallinteger", ["null" => true])
             ->addColumn("colour", "string", ["limit" => 255, "null" => true])
             ->addColumn("fuel_type", "string", ["limit" => 255, "null" => true])
             ->addColumn("transmission", "string", ["limit" => 255, "null" => true])

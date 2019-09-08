@@ -11,6 +11,8 @@
 
 namespace DavegTheMighty\CarService\Controller;
 
+use DavegTheMighty\CarService\Exceptions\ControllerException;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Interop\Container\ContainerInterface;
@@ -20,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
 
 //Traits
 //phpcs:ignore PSR2.Namespaces.UseDeclaration.MultipleDeclarations
-use DavegTheMighty\CarService\Controller\Traits {
+use DavegTheMighty\CarService\Controller\Traits\{
     FillModelTrait,
     GetModelTrait,
     NewModelTrait,
@@ -71,10 +73,18 @@ class GenericModelController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $this->getModel();
-        return $response
-            ->withStatus(201)
-            ->write(json_encode($this->model, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+
+        try {
+            $this->getModel($request);
+            return $response
+                ->withStatus(201)
+                ->write(json_encode($this->model, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        } catch (\ControllerException $e) {
+            return $response->withStatus(500);
+        } catch (\RuntimeException $e) {
+            $this->logger->error("Unhandled Exception in get route", [$e]);
+            return $response->withStatus(500);
+        }
     }
 
     /**
@@ -88,10 +98,17 @@ class GenericModelController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $objects = $this->queryModel($request);
-        return $response
-            ->withStatus(200)
-            ->write(json_encode($objects, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        try {
+            $objects = $this->queryModel($request);
+            return $response
+                ->withStatus(200)
+                ->write(json_encode($objects, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        } catch (\ControllerException $e) {
+            return $response->withStatus(500);
+        } catch (\RuntimeException $e) {
+            $this->logger->error("Unhandled Exception in get all route", [$e]);
+            return $response->withStatus(500);
+        }
     }
 
     /**
@@ -105,20 +122,26 @@ class GenericModelController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
+        try {
+            $this->newModel();
+            $this->fillModel();
+            $this->validateModel();
+            $this->saveModel();
 
-        $this->newModel();
-        $this->fillModel();
-        $this->validateModel();
-        $this->saveModel();
+            $this->logger->info("Created New {$this->model::getClassName()}", [$this->model->id]);
 
-        $this->logger->info("Created New {$this->model::getClassName()}", [$this->model->id]);
-
-        return $response
-            ->withStatus(201)
-            ->withHeader(
-                "Content-Location",
-                $this->model->getLocation()
-            );
+            return $response
+                ->withStatus(201)
+                ->withHeader(
+                    "Content-Location",
+                    $this->model->getLocation()
+                );
+        } catch (\ControllerException $e) {
+            return $response->withStatus(500);
+        } catch (\RuntimeException $e) {
+            $this->logger->error("Unhandled Exception in post route", [$e]);
+            return $response->withStatus(500);
+        }
     }
 
     /**
@@ -136,7 +159,7 @@ class GenericModelController
         //Delegate to Post/Patch
         try {
             //TODO: There is overhead in calling this twice, but can refactor
-            $this->getModel();
+            $this->getModel($request);
         } catch (\ModelNotFoundException $e) {
             return $this->post($request, $response, $args);
         }
@@ -156,22 +179,29 @@ class GenericModelController
         array $args
     ): ResponseInterface {
 
-        $this->getModel();
-        $this->logger->info("Updating {$this->class_name}", [$this->model->id]);
-        $this->fillModel();
-        $this->validateModel();
-        $this->saveModel();
+        try {
+            $this->getModel($request);
+            $this->logger->info("Updating {$this->class_name}", [$this->model->id]);
+            $this->fillModel();
+            $this->validateModel();
+            $this->saveModel();
 
-        $this->logger->info("Updated {$this->model::getClassName()}", [$this->model->id]);
+            $this->logger->info("Updated {$this->model::getClassName()}", [$this->model->id]);
 
-        $response = $response->withHeader($key, $value);
+            $response = $response->withHeader($key, $value);
 
-        return $response
-            ->withStatus(200)
-            ->withHeader(
-                "Content-Location",
-                $this->model->getLocation()
-            );
+            return $response
+                ->withStatus(200)
+                ->withHeader(
+                    "Content-Location",
+                    $this->model->getLocation()
+                );
+        } catch (\ControllerException $e) {
+            return $response->withStatus(500);
+        } catch (\RuntimeException $e) {
+            $this->logger->error("Unhandled Exception in post route", [$e]);
+            return $response->withStatus(500);
+        }
     }
 
     /**
@@ -185,14 +215,21 @@ class GenericModelController
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-          $this->getModel();
+        try {
+            $this->getModel($request);
 
-          $this->logger->info("Deleting {$this->class_name}", [$this->model->id]);
-          $this->validateModel('validateDelete');
+            $this->logger->info("Deleting {$this->class_name}", [$this->model->id]);
+            $this->validateModel('validateDelete');
 
-          $object->delete();
-          $this->logger->info("Deleted {$this->class_name}", [$this->model->id]);
+            $object->delete();
+            $this->logger->info("Deleted {$this->class_name}", [$this->model->id]);
 
-          return $response->withStatus(200);
+            return $response->withStatus(200);
+        } catch (\ControllerException $e) {
+            return $response->withStatus(500);
+        } catch (\RuntimeException $e) {
+            $this->logger->error("Unhandled Exception in post route", [$e]);
+            return $response->withStatus(500);
+        }
     }
 }

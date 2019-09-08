@@ -18,7 +18,7 @@ trait NewModelTrait
 
     protected function newModel(ServerRequestInterface $request): void
     {
-        $resource = $this->getSetModel();
+        $resource = $this->getModel($request);
         $this->class_name = $resource->getClassName(false);
 
         $newID = $resource::generateId();
