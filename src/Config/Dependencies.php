@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Title           : SlimBase
+ * Title           : CarService
  * Filename        : Dependencies.php
  * Description     :
  * Date            : 08/09/19 10:00

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Title           : SlimBase
+ * Title           : CarService
  * Filename        : Settings.php
  * Description     :
  * Date            : 08/09/19 10:00
@@ -18,8 +18,8 @@ return [
         'service_environment' => getenv('SERVICE_ENVIRONMENT'),
         // Logging settings
         'logger' => [
-            'name' => getenv('LOG_NAME') ?: 'SlimBase',
-            'path' => getenv('LOG_PATH') ?: __DIR__ . '/../../var/logs/SlimBase.log',
+            'name' => getenv('LOG_NAME') ?: 'CarService',
+            'path' => getenv('LOG_PATH') ?: __DIR__ . '/../../var/logs/CarService.log',
             'level' => getenv('LOG_LEVEL') ?: \Psr\Log\LogLevel::DEBUG,
         ],
     ]
