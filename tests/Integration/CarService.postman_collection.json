@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "b2b3c2e5-9297-45fc-89b0-4c484a4f46a1",
+		"name": "CarService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Import",
+			"item": [
+				{
+					"name": "Import Data - No File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "211315fd-a3e6-421f-940e-7f960279c6f9",
+								"exec": [
+									"pm.test(\"Response time is less than 800ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);",
+									"});",
+									"pm.test(\"Invalid Create request\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"// example using pm.response.to.be*",
+									"pm.test(\"Response must be valid and have a body\", function () {",
+									"     // assert that the status code is 4XX",
+									"     pm.response.to.be.clientError; // info, success, redirection, clientError,  serverError, are other variants",
+									"     // assert that the response has a valid JSON body",
+									"     pm.response.to.be.not.withBody;",
+									"     pm.response.to.be.not.json; // this assertion also checks if a body  exists, so the above check is not needed",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{service_uri}}/import",
+							"host": [
+								"{{service_uri}}"
+							],
+							"path": [
+								"import"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vehicles",
+			"item": [
+				{
+					"name": "Get All",
+					"item": [
+						{
+							"name": "Get All Vehicles",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bdae847d-1b18-43cf-a927-3a14e3909a64",
+										"exec": [
+											"pm.test(\"Response time is less than 800ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);",
+											"});",
+											"pm.test(\"Successful GET request\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"// example using pm.response.to.be*",
+											"pm.test(\"Response must be valid and have a body\", function () {",
+											"     // assert that the status code is 200",
+											"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+											"     // assert that the response has a valid JSON body",
+											"     pm.response.to.be.withBody;",
+											"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {}
+								},
+								"url": {
+									"raw": "{{service_uri}}/vehicles",
+									"host": [
+										"{{service_uri}}"
+									],
+									"path": [
+										"vehicles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Vehicles - Filtered By License",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "96f8cacc-9b78-48b9-912a-1fb2dc8d9af3",
+										"exec": [
+											"pm.test(\"Response time is less than 800ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);",
+											"});",
+											"pm.test(\"Successful GET request\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Check if returned Sensor has expected data \", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(Object.keys(jsonData).length).to.eql(1);",
+											"    pm.expect(jsonData[0]).to.have.property('id');",
+											"    pm.expect(jsonData[0].license_plate).to.eql(\"RS014SR\");        ",
+											"});",
+											"// example using pm.response.to.be*",
+											"pm.test(\"Response must be valid and have a body\", function () {",
+											"     // assert that the status code is 200",
+											"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+											"     // assert that the response has a valid JSON body",
+											"     pm.response.to.be.withBody;",
+											"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{service_uri}}/vehicles?license_plate=RS014SR",
+									"host": [
+										"{{service_uri}}"
+									],
+									"path": [
+										"vehicles"
+									],
+									"query": [
+										{
+											"key": "license_plate",
+											"value": "RS014SR"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
