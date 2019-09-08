@@ -52,21 +52,6 @@ abstract class EloquentModel extends Eloquent implements IValidation
         return $class_name;
     }
 
-    /**
-     * Get the fillable attributes for the model.
-     * Some fields are permitted to be fillable when new, but not when updating
-     * The function isFillable checks if fillable first, but if value is present,
-     * does not check guarded.
-     * Otherwise, using guarded would have been the better option
-     * @return array
-     */
-    public function getFillable()
-    {
-        return $this->exists ?
-               \array_diff($this->fillable, $this->not_fillable_on_update) :
-               $this->fillable;
-    }
-
     public static function getRouteId(): string
     {
         $class_name = static::getClassName();
@@ -78,8 +63,6 @@ abstract class EloquentModel extends Eloquent implements IValidation
      * @param  RouteInterface $route [description]
      * @return string                [description]
      */
-    //FIXME: Can be generic
-    //FIXME: Can  be extended for special cases
     public static function findIdFromRequest(ServerRequestInterface $request): ? string
     {
         $route_id = static::getRouteId();
