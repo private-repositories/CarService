@@ -68,6 +68,8 @@ As this work was done over a short period of time, there will always be areas to
 Naturally, I could have continued with this, but had to draw a line somewhere.
 
 Some incomplete areas or future work are:
+ - Add travis, coveralls
+ - Abstract some of the code for DRYness
  - Lookup tables - for model, fuel type, transmission
  - Validation for year of purchase - not in the future
  - Regex validation for registration
