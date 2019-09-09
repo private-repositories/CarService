@@ -17,6 +17,8 @@ use DavegTheMighty\CarService\Model\{
     Vehicle
 };
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use Interop\Container\ContainerInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -88,10 +90,14 @@ class VehicleController
         array $args
     ): ResponseInterface {
         try {
+            //FIXME: Hard Dependency, which should be avoided
             $owner = Owner::findOrFail($args['owner_id']);
             return $response
                 ->withStatus(200)
                 ->write(json_encode($owner->vehicles, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        } catch (ModelNotFoundException $e) {
+            $this->logger->error("Owner not found for supplied id: ".$args['owner_id'], [$e]);
+            return $response->withStatus(404);
         } catch (\ControllerException $e) {
             return $response->withStatus(500);
         } catch (\RuntimeException $e) {
@@ -116,6 +122,9 @@ class VehicleController
             return $response
                 ->withStatus(200)
                 ->write(json_encode($owner->vehicles, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        } catch (\ModelNotFoundException $e) {
+            $this->logger->error("Owner not found for supplied name: ".$args['owner_name'], [$e]);
+            return $response->withStatus(404);
         } catch (\ControllerException $e) {
             return $response->withStatus(500);
         } catch (\RuntimeException $e) {

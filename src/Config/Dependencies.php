@@ -75,10 +75,7 @@ $container["logger"] = function (ContainerInterface $container) {
 $container["validator"] = function (ContainerInterface $container) {
 
     $validator = new Validator();
-    //Add Custom Rules, for lookups - e.g. is a room's type_id valid?
-    //For this case, this avoids adding a hard dependency to Room to
-    //check against the RoomType lookup model
+    //Add Custom Rules, for lookups - e.g. is a relationships' id valid?
     //TODO: For performance, the rules can be added on a route name basis.
-
     return $validator;
 };
